@@ -1,1 +1,0 @@
-{"status":"VERIFIED","execution":"local_python","dataset":"Wisconsin Diagnostic Breast Cancer dataset via scikit-learn","roc_auc":0.9953703704,"random_state":42,"note":"Model training and metric computation were executed locally; deployment, monitoring and load testing remain unverified."}
