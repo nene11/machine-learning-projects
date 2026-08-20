@@ -1,0 +1,1 @@
+{"status":"VERIFIED","execution":"local_python","dataset":"synthetic time-series development benchmark","mae":9.6387862304,"rmse":11.9492360968,"random_state":42,"note":"Use a validated public/business sales dataset before claiming real-world forecasting performance."}

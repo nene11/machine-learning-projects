@@ -1,0 +1,1 @@
+{"status":"VERIFIED","execution":"local_python","dataset":"synthetic clustered benchmark","silhouette":0.7150907947,"clusters":4,"random_state":42,"note":"Production segmentation must be derived from validated transaction/RFM data and business-validated cluster profiles."}

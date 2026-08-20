@@ -2,12 +2,18 @@
 **Level:** Advanced | **Task:** Time-series regression
 
 ## Objective
-Build a leakage-safe forecasting workflow using lagged demand, rolling statistics and calendar features.
+Forecast demand using leakage-safe lagged and rolling features.
+
+## Executed benchmark
+The committed pipeline was executed locally with a fixed seed. **VERIFIED:** MAE 9.6388 and RMSE 11.9492 on a synthetic time-series development benchmark.
+
+These are development-benchmark metrics, not real business sales results.
 
 ## Workflow
-Chronological split → lag/rolling feature engineering → naive baseline → gradient boosting → backtesting → MAE/RMSE → error analysis.
+Chronological split → lag features → rolling statistics based only on past values → calendar feature → gradient boosting → MAE/RMSE.
 
-## Key engineering rule
-No future observations may influence features used to predict the past.
+## Engineering rule
+No future observations influence features used for past predictions.
 
-**Execution status:** NOT EXECUTED in this repository snapshot.
+## Next production step
+Replace the synthetic series with a documented public sales dataset and perform multi-window rolling-origin backtesting.

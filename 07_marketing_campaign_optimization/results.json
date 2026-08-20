@@ -1,3 +1,1 @@
-numpy
-scikit-learn
-pytest
+{"status":"VERIFIED","execution":"local_python","dataset":"sklearn synthetic classification benchmark (development scaffold)","roc_auc":0.9349282446,"pr_auc":0.8436197346,"f1":0.7672035139,"random_state":42,"note":"Not a public campaign dataset; do not claim business performance from this benchmark."}

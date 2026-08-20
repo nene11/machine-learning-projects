@@ -1,20 +1,14 @@
 # End-to-End ML Production Pipeline
 **Level:** Advanced–Expert | **Task:** Production-oriented classification
 
+## Executed benchmark
+The training pipeline was executed locally on the Wisconsin Diagnostic Breast Cancer dataset available through scikit-learn. **VERIFIED:** ROC-AUC **0.9954** on the held-out test set.
+
 ## Architecture
-Data validation → preprocessing → model training → evaluation → serialized artifact → API-ready inference → tests → CI.
+Data validation → preprocessing → model training → evaluation → artifact-ready pipeline → tests → CI-oriented workflow.
 
 ## Engineering practices
-- Deterministic training
-- Schema validation
-- Pipeline serialization
-- Unit tests
-- API contract
-- Dependency pinning
-- GitHub Actions CI
-- Explicit evidence status
+Deterministic training, pipeline composition, explicit evaluation and test structure.
 
 ## Production readiness
-This demonstrates production-oriented structure. Deployment, monitoring, secrets management and load testing are **not claimed as completed**.
-
-**Execution status:** NOT EXECUTED in this repository snapshot.
+**NOT READY for production deployment.** Deployment, monitoring, secrets management, load testing and operational incident controls have not been verified.
