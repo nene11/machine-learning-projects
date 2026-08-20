@@ -1,16 +1,19 @@
 # Marketing Campaign Optimization & Conversion Prediction
 **Level:** Advanced | **Task:** Classification + business analytics
 
-## Objective
-Predict conversion probability and translate model outputs into targeting decisions.
+## Dataset
+UCI **Bank Marketing** (`bank-full.csv`): 45,211 records and 16 input variables in the full dataset. The task is to predict whether a client subscribes to a term deposit. Source: UCI Machine Learning Repository. The dataset is licensed CC BY 4.0. citeturn0search0
 
-## Executed benchmark
-The committed pipeline was executed locally with a fixed random seed. **VERIFIED:** ROC-AUC 0.9349, PR-AUC 0.8436, F1 0.7672.
-
-The benchmark uses scikit-learn synthetic classification data. These numbers are **not** business campaign results and must not be presented as such.
+## Leakage control
+`duration` is excluded because it is observed after the phone call and would not be available for pre-contact targeting.
 
 ## Workflow
-Leakage review → preprocessing → logistic baseline → probability prediction → ROC-AUC / PR-AUC / F1 → business thresholding concept → limitations.
+Data download → quality handling → stratified split → preprocessing → logistic baseline → 5-fold stratified CV → ROC-AUC / PR-AUC → optimized F1 threshold → limitations.
 
-## Next production step
-Replace the synthetic scaffold with a documented public campaign dataset and add calibration, cost-sensitive threshold optimization and business lift analysis.
+## Execution status
+**REAL DATA PIPELINE: EXECUTED BY GITHUB ACTIONS ON PUSH — remote run must be checked before treating the metrics as VERIFIED.**
+
+The repository intentionally does not hard-code unverified metrics. The workflow produces `results_real.json` as an artifact.
+
+## Source
+urlUCI Bank Marketing datasethttps://archive.ics.uci.edu/dataset/222/bank%2Bmarketing
