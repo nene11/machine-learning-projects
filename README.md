@@ -1,16 +1,28 @@
-# Machine Learning Projects Portfolio
+# Machine Learning Portfolio — Nihal Idris Fadol Alsaied
 
-A portfolio of intermediate-to-advanced machine learning projects covering tabular ML, NLP, time series, credit risk, and computer vision.
+**Data Scientist | Machine Learning | Analytics | MSc Computer Science**
 
-## Projects
-1. Customer Churn Prediction
-2. House Price Regression & Explainability
-3. Credit Risk / Default Prediction
-4. News Topic Classification
-5. Energy Demand Forecasting
-6. CIFAR-10 Image Classification
+A structured portfolio demonstrating classical ML, NLP, time-series forecasting, computer vision, business analytics, and production-oriented ML engineering.
 
-Each project contains a README, detailed report, reproducible training script, requirements, and an evidence/results file.
+## Portfolio map
 
-## Evidence policy
-Metrics are only marked VERIFIED after the training/evaluation pipeline has actually been executed. No unverified metric is presented as a completed result.
+| Project | Domain | Focus |
+|---|---|---|
+| 01 | Customer Churn | Classification |
+| 02 | House Prices | Regression |
+| 03 | Credit Risk | Risk & Calibration |
+| 04 | News | NLP |
+| 05 | Energy | Time Series |
+| 06 | CIFAR-10 | Deep Learning |
+| 07 | Marketing Campaign | Conversion & Business ML |
+| 08 | Sales Forecasting | Demand Planning |
+| 09 | Customer Segmentation | Unsupervised ML |
+| 10 | End-to-End MLOps | Production-oriented ML |
+
+## Engineering standard
+Each serious project documents problem definition, data quality, preprocessing, leakage controls, modeling, evaluation, limitations and reproducibility.
+
+**Evidence policy:** metrics are marked verified only after actual execution. This portfolio intentionally avoids fabricated benchmark numbers.
+
+## Target roles
+Data Scientist · Machine Learning Engineer · Data Analyst / Marketing Analytics · AI Engineer

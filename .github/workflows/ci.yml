@@ -1,0 +1,15 @@
+name: portfolio-ci
+on: [push, pull_request]
+jobs:
+  smoke-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10","3.11"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -r 07_marketing_campaign_optimization/requirements.txt
+      - run: python -m pytest 07_marketing_campaign_optimization/tests
