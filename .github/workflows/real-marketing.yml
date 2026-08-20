@@ -1,0 +1,17 @@
+name: real-marketing-benchmark
+on:
+  push:
+    paths: ['07_marketing_campaign_optimization/**']
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install pandas scikit-learn
+      - run: python 07_marketing_campaign_optimization/src/train_real.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: marketing-real-results
+          path: 07_marketing_campaign_optimization/results_real.json
