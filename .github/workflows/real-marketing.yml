@@ -1,17 +1,57 @@
 name: real-marketing-benchmark
+
 on:
   push:
-    paths: ['07_marketing_campaign_optimization/**']
+    branches: ["main", "ci-verification", "marketing-real-data-fix"]
+    paths:
+      - "07_marketing_campaign_optimization/**"
+      - ".github/workflows/real-marketing.yml"
+  pull_request:
+    branches: ["main", "ci-verification"]
+    paths:
+      - "07_marketing_campaign_optimization/**"
+      - ".github/workflows/real-marketing.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
 jobs:
   train:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: {python-version: '3.11'}
-      - run: pip install pandas scikit-learn
-      - run: python 07_marketing_campaign_optimization/src/train_real.py
-      - uses: actions/upload-artifact@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && python -m pip install pandas scikit-learn
+
+      - name: Run real-data training
+        run: python 07_marketing_campaign_optimization/src/train.py
+
+      - name: Validate result artifact
+        run: python - <<'PY'
+import json
+from pathlib import Path
+p = Path("07_marketing_campaign_optimization/results_real.json")
+assert p.exists(), "results_real.json was not created"
+r = json.loads(p.read_text())
+required = ["records", "test_roc_auc", "test_pr_auc", "test_f1_optimized"]
+missing = [k for k in required if k not in r]
+assert not missing, f"Missing metrics: {missing}"
+assert r["records"] >= 40000, f"Unexpected record count: {r['records']}"
+print(json.dumps(r, indent=2))
+PY
+
+      - name: Upload metrics
+        uses: actions/upload-artifact@v4
         with:
           name: marketing-real-results
           path: 07_marketing_campaign_optimization/results_real.json
