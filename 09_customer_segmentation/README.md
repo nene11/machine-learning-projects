@@ -2,15 +2,23 @@
 **Level:** Intermediate–Advanced | **Task:** Unsupervised learning
 
 ## Objective
-Identify actionable customer groups using behavioral features.
+Identify customer groups using behavioral features and evaluate cluster quality.
 
-## Executed benchmark
-The committed clustering pipeline was executed locally. **VERIFIED:** 4 clusters with silhouette score **0.7151** on a synthetic clustered benchmark.
+## Verified CI benchmark
+Portfolio CI run #28 executed the pipeline successfully under Python 3.10 and 3.11.
 
-This is algorithmic validation, not evidence of business customer segments.
+- Clusters: **4**
+- Silhouette score: **0.7151**
+
+These are **development-benchmark results on a synthetic clustered dataset**, not evidence of real customer segments.
 
 ## Workflow
-Scaling → K-Means → silhouette evaluation → cluster profiling concept → marketing actions.
+Feature preparation → scaling → K-Means → silhouette evaluation → cluster profiling concept → marketing-action mapping.
 
 ## Next production step
-Derive RFM from a documented public transaction dataset, test multiple K values and validate cluster personas against business outcomes.
+Derive RFM features from a documented public transaction dataset, compare multiple K values and validate the resulting personas against business outcomes.
+
+## Evidence status
+**VERIFIED:** clustering execution, silhouette metric and CI execution.
+
+**NOT TESTED:** real customer segmentation validity, campaign uplift and production use.
