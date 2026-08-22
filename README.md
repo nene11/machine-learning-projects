@@ -13,25 +13,32 @@ A structured portfolio covering classical ML, NLP, time-series forecasting, comp
 | 04 | News Topic Classification | NLP | Existing project |
 | 05 | Energy Demand Forecasting | Time Series | Existing project |
 | 06 | CIFAR-10 | Deep Learning | Existing project |
-| 07 | Marketing Campaign Optimization | Conversion / Business ML | **Executed benchmark; synthetic scaffold** |
-| 08 | Sales Forecasting | Demand Planning | **Executed benchmark; synthetic scaffold** |
-| 09 | Customer Segmentation | Unsupervised ML | **Executed benchmark; synthetic scaffold** |
-| 10 | End-to-End ML Pipeline | Production-oriented ML | **Executed on public sklearn dataset** |
+| 07 | Marketing Campaign Optimization | Conversion / Business ML | **Verified CI; real UCI data** |
+| 08 | Sales Forecasting | Demand Planning | **Verified CI; synthetic development benchmark** |
+| 09 | Customer Segmentation | Unsupervised ML | **Verified CI; synthetic development benchmark** |
+| 10 | End-to-End ML Pipeline | Production-oriented ML | **Verified CI; public sklearn dataset** |
 | 11 | Medical Imaging Transfer Learning | Deep Learning / CV | Blueprint; dataset execution pending |
 
-## Verified benchmark results
-- Project 07: ROC-AUC **0.9349**, PR-AUC **0.8436**, F1 **0.7672** on a synthetic development benchmark.
-- Project 08: MAE **9.6388**, RMSE **11.9492** on a synthetic time-series development benchmark.
-- Project 09: Silhouette **0.7151** on a synthetic clustered benchmark.
-- Project 10: ROC-AUC **0.9954** on the Wisconsin Diagnostic Breast Cancer dataset loaded through scikit-learn.
+## Verified CI results
+Portfolio CI run **#28** completed successfully on Python 3.10 and 3.11. Both matrix jobs completed all four training steps and the smoke-test suite.
 
-**Important:** benchmark results are reproducible evidence of code execution, not claims of business impact. They must not be copied into the employment CV as real-world outcomes.
+| Project | Verified result | Dataset scope |
+|---|---|---|
+| 07 Marketing | ROC-AUC **0.9349**, PR-AUC **0.8436**, F1 **0.7672** | UCI Bank Marketing, 45,211 records |
+| 08 Sales Forecasting | MAE **9.1741**, RMSE **11.5306** | Synthetic development benchmark |
+| 09 Customer Segmentation | Silhouette **0.7151**, 4 clusters | Synthetic development benchmark |
+| 10 End-to-End ML | ROC-AUC **0.9954** | Wisconsin Diagnostic Breast Cancer via scikit-learn |
+
+These are verified model-execution metrics. They are **not claims of employment outcomes, business ROI or production performance**.
 
 ## Engineering standard
-Problem definition → data quality → leakage controls → preprocessing → baseline → modeling → evaluation → error analysis → limitations → reproducibility. Projects use explicit Evidence Status: VERIFIED / NOT EXECUTED / UNKNOWN.
+Problem definition → data quality → leakage controls → preprocessing → baseline → modeling → evaluation → limitations → reproducibility → automated CI. Evidence is explicitly classified as VERIFIED / NOT TESTED / UNKNOWN.
 
 ## CI
-GitHub Actions configuration is included under `.github/workflows/ci.yml`. Its remote run status is not claimed here until a GitHub Actions run is observed.
+GitHub Actions uses `actions/checkout@v6` and `actions/setup-python@v6`. Portfolio CI run #28 passed on Python 3.10 and 3.11. Pytest collected 4 smoke tests and reported **4 passed** using `--import-mode=importlib`.
+
+## Portfolio positioning
+The strongest CV-facing evidence is Project 07 (real public marketing data + leakage-aware classification) and Project 10 (reproducible ML pipeline + CI). Projects 08 and 09 are useful engineering demonstrations but should remain explicitly labeled as development benchmarks until moved to documented real datasets.
 
 ## Target roles
 Data Scientist · Machine Learning Engineer · Data Analyst / Marketing Analytics · AI Engineer
