@@ -2,26 +2,31 @@
 **Level:** Advanced | **Task:** Time-series regression
 
 ## Objective
-Forecast demand using leakage-safe lagged and rolling features.
+Forecast daily bike-sharing demand using a chronological split and leakage-safe features.
 
-## Verified CI benchmark
-The portfolio CI run #28 executed the pipeline successfully under Python 3.10 and 3.11.
+## Dataset
+UCI Bike Sharing Dataset, `day.csv`. The training script downloads the public dataset at runtime from the UCI repository.
 
-- MAE: **9.1741**
-- RMSE: **11.5306**
+## Method
+Chronological 80/20 split → calendar/weather features → HistGradientBoostingRegressor → MAE/RMSE.
 
-These are **development-benchmark metrics on a synthetic time series**, not real business sales results.
+`casual` and `registered` are deliberately excluded because they are components of the target `cnt` and would leak target information.
 
-## Workflow
-Chronological split → lag features → past-only rolling statistics → calendar features → gradient boosting → MAE/RMSE.
+## Verification
+**VERIFIED in code:** real UCI dataset loading, chronological split, leakage exclusions, deterministic model configuration and metric generation.
 
-## Engineering rule
-No future observations influence features used for past predictions.
+**NOT YET VERIFIED:** final real-dataset metrics until the updated CI run completes.
 
-## Next production step
-Replace the synthetic series with a documented public sales dataset and perform rolling-origin backtesting across multiple forecast horizons, including a seasonal naive baseline.
+## Reproducibility
+```bash
+pip install -r requirements.txt
+python src/train.py
+```
 
-## Evidence status
-**VERIFIED:** pipeline execution, metrics and CI execution.
+The script creates `results_real.json` and does not hard-code benchmark numbers.
 
-**NOT TESTED:** real sales performance, business impact and production forecasting.
+## Business interpretation
+The model is a portfolio demonstration of demand forecasting. Its error should not be presented as a business KPI or operational forecast accuracy without domain-specific validation.
+
+## Source
+UCI Bike Sharing Dataset: https://archive.ics.uci.edu/dataset/275/bike%2Bsharing%2Bdataset
