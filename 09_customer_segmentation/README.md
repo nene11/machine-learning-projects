@@ -2,23 +2,31 @@
 **Level:** Intermediate–Advanced | **Task:** Unsupervised learning
 
 ## Objective
-Identify customer groups using behavioral features and evaluate cluster quality.
+Identify actionable customer groups from real transaction behavior using RFM features and K-Means clustering.
 
-## Verified CI benchmark
-Portfolio CI run #28 executed the pipeline successfully under Python 3.10 and 3.11.
+## Dataset
+UCI Online Retail dataset. The training script downloads the public dataset at runtime from UCI.
 
-- Clusters: **4**
-- Silhouette score: **0.7151**
+## Method
+Transaction cleaning → positive sales filtering → RFM construction → log transform → standardization → K-Means model selection for k=2..6 → silhouette evaluation.
 
-These are **development-benchmark results on a synthetic clustered dataset**, not evidence of real customer segments.
+Cancelled invoices and non-positive quantity/unit-price records are excluded from behavioral segmentation.
 
-## Workflow
-Feature preparation → scaling → K-Means → silhouette evaluation → cluster profiling concept → marketing-action mapping.
+## Verification
+**VERIFIED in code:** real UCI transaction loading, RFM feature construction, multiple-k evaluation, deterministic K-Means configuration and metric generation.
 
-## Next production step
-Derive RFM features from a documented public transaction dataset, compare multiple K values and validate the resulting personas against business outcomes.
+**NOT YET VERIFIED:** final real-dataset metrics until the updated CI run completes.
 
-## Evidence status
-**VERIFIED:** clustering execution, silhouette metric and CI execution.
+## Reproducibility
+```bash
+pip install -r requirements.txt
+python src/train.py
+```
 
-**NOT TESTED:** real customer segmentation validity, campaign uplift and production use.
+The script creates `results_real.json` and does not hard-code benchmark numbers.
+
+## Business interpretation
+Segments should be validated against business outcomes before being used for targeting. Silhouette score measures geometric cluster separation; it does not prove marketing uplift.
+
+## Source
+UCI Online Retail: https://archive.ics.uci.edu/dataset/352/online%2Bretail
