@@ -1,39 +1,35 @@
 # Project 09 — Customer Segmentation & RFM Analytics
 
 ## Objective
-Demonstrate unsupervised customer segmentation using standardized behavioral features and K-Means, with cluster-count evaluation through silhouette score.
+Identify actionable customer groups from real transaction behavior using RFM features and K-Means clustering.
 
-## Dataset and scope
-The current implementation uses a **synthetic clustered development benchmark**. It validates the clustering workflow but does not represent real customers or business segments.
+## Dataset
+UCI Online Retail. The pipeline downloads the public transaction dataset at runtime.
 
-## Pipeline
-1. Prepare behavioral features.
-2. Scale features to comparable ranges.
-3. Train K-Means for candidate cluster structures.
-4. Evaluate cluster quality with silhouette score.
-5. Select the development configuration.
-6. Produce cluster labels for downstream profiling.
+## Data preparation
+1. Validate required transaction columns.
+2. Remove records without customer/date information.
+3. Exclude cancellations and non-positive quantity/unit-price records.
+4. Calculate revenue as quantity × unit price.
+5. Build customer-level Recency, Frequency and Monetary features.
+6. Apply log1p transformation and standardization.
 
-## Verified execution
-GitHub Actions portfolio CI run #28 executed the project successfully under Python 3.10 and 3.11.
+## Model selection
+K-Means is evaluated for k=2..6 using silhouette score. The highest-scoring candidate is selected deterministically.
 
-### Metrics — Python 3.11 execution
-| Metric | Value |
-|---|---:|
-| Number of clusters | 4 |
-| Silhouette score | 0.7151 |
+## Metrics
+The pipeline records customer count, silhouette score for every tested k and the selected k in `results_real.json`. Final real-data values will only be reported after the updated CI run completes.
 
-These are **VERIFIED algorithmic benchmark results**, not evidence of real customer behavior or marketing uplift.
+## Reproducibility
+```bash
+python src/train.py
+```
 
-## Testing
-Portfolio CI completed successfully. Four smoke tests across the relevant projects passed, with pytest configured to avoid duplicate test-module import conflicts.
-
-## Limitations and next step
-A portfolio-grade business segmentation should derive RFM features from a documented public transaction dataset, compare multiple K values, profile clusters with interpretable statistics and validate segments against downstream business outcomes.
+## Business interpretation
+Silhouette score measures geometric separation; it does not prove that segments improve retention, conversion or revenue. Cluster profiles and downstream business validation are required before deployment.
 
 ## Evidence status
-- Clustering execution: VERIFIED
-- Silhouette score: VERIFIED
-- Real customer data: NOT USED
-- Business segment validity: NOT TESTED
-- Production use: NOT READY
+- Real public transaction dataset: **VERIFIED in code**
+- RFM construction: **VERIFIED in code**
+- Multi-k model selection: **VERIFIED in code**
+- Final real-data metrics: **NOT YET VERIFIED after migration**
