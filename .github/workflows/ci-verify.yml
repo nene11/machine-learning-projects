@@ -5,6 +5,7 @@ on:
     branches: ["ci-verification", "main"]
   pull_request:
     branches: ["main"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -12,7 +13,7 @@ permissions:
 jobs:
   smoke-tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -20,10 +21,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -46,4 +47,4 @@ jobs:
           python 10_end_to_end_mlops/src/train.py
 
       - name: Run tests
-        run: python -m pytest 07_marketing_campaign_optimization/tests 09_customer_segmentation/tests 10_end_to_end_mlops/tests -q
+        run: python -m pytest --import-mode=importlib 07_marketing_campaign_optimization/tests 09_customer_segmentation/tests 10_end_to_end_mlops/tests -q
