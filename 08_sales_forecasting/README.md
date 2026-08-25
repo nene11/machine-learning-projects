@@ -2,18 +2,31 @@
 **Level:** Advanced | **Task:** Time-series regression
 
 ## Objective
-Forecast demand using leakage-safe lagged and rolling features.
+Forecast daily bike-sharing demand using a chronological split and leakage-safe features.
 
-## Executed benchmark
-The committed pipeline was executed locally with a fixed seed. **VERIFIED:** MAE 9.6388 and RMSE 11.9492 on a synthetic time-series development benchmark.
+## Dataset
+UCI Bike Sharing Dataset, `day.csv`. The training script downloads the public dataset at runtime from the UCI repository.
 
-These are development-benchmark metrics, not real business sales results.
+## Method
+Chronological 80/20 split → calendar/weather features → HistGradientBoostingRegressor → MAE/RMSE.
 
-## Workflow
-Chronological split → lag features → rolling statistics based only on past values → calendar feature → gradient boosting → MAE/RMSE.
+`casual` and `registered` are deliberately excluded because they are components of the target `cnt` and would leak target information.
 
-## Engineering rule
-No future observations influence features used for past predictions.
+## Verification
+**VERIFIED in code:** real UCI dataset loading, chronological split, leakage exclusions, deterministic model configuration and metric generation.
 
-## Next production step
-Replace the synthetic series with a documented public sales dataset and perform multi-window rolling-origin backtesting.
+**NOT YET VERIFIED:** final real-dataset metrics until the updated CI run completes.
+
+## Reproducibility
+```bash
+pip install -r requirements.txt
+python src/train.py
+```
+
+The script creates `results_real.json` and does not hard-code benchmark numbers.
+
+## Business interpretation
+The model is a portfolio demonstration of demand forecasting. Its error should not be presented as a business KPI or operational forecast accuracy without domain-specific validation.
+
+## Source
+UCI Bike Sharing Dataset: https://archive.ics.uci.edu/dataset/275/bike%2Bsharing%2Bdataset
