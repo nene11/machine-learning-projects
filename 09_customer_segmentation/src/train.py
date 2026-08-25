@@ -21,9 +21,16 @@ def load_data() -> pd.DataFrame:
         with urlopen(URL, timeout=60) as r:
             archive.write_bytes(r.read())
     with zipfile.ZipFile(archive) as z:
-        csv_name = next(n for n in z.namelist() if n.lower().endswith(".csv"))
-        with z.open(csv_name) as f:
-            return pd.read_csv(f, encoding="ISO-8859-1")
+        names = z.namelist()
+        excel_name = next((n for n in names if n.lower().endswith((".xlsx", ".xls"))), None)
+        if excel_name:
+            with z.open(excel_name) as f:
+                return pd.read_excel(f, engine="openpyxl")
+        csv_name = next((n for n in names if n.lower().endswith(".csv")), None)
+        if csv_name:
+            with z.open(csv_name) as f:
+                return pd.read_csv(f, encoding="ISO-8859-1")
+    raise ValueError(f"No supported tabular data file found in {archive.name}")
 
 
 def main() -> None:
@@ -35,7 +42,6 @@ def main() -> None:
     df = df.dropna(subset=["CustomerID", "InvoiceDate"])
     df["InvoiceDate"] = pd.to_datetime(df["InvoiceDate"], errors="coerce")
     df = df.dropna(subset=["InvoiceDate"])
-    # Credit notes/cancellations are excluded from positive-value customer behavior.
     df = df[(df["Quantity"] > 0) & (df["UnitPrice"] > 0) & (~df["InvoiceNo"].astype(str).str.startswith("C"))].copy()
     df["revenue"] = df["Quantity"] * df["UnitPrice"]
     snapshot = df["InvoiceDate"].max() + pd.Timedelta(days=1)
@@ -48,14 +54,11 @@ def main() -> None:
     X = rfm.apply(lambda c: __import__("numpy").log1p(c)).replace([float("inf"), float("-inf")], 0)
     X = StandardScaler().fit_transform(X)
     scores = {}
-    models = {}
     for k in range(2, 7):
-        m = KMeans(n_clusters=k, n_init=20, random_state=42)
-        labels = m.fit_predict(X)
+        model = KMeans(n_clusters=k, n_init=20, random_state=42)
+        labels = model.fit_predict(X)
         scores[k] = float(silhouette_score(X, labels))
-        models[k] = (m, labels)
     best_k = max(scores, key=scores.get)
-    best_model, labels = models[best_k]
     results = {
         "dataset": "UCI Online Retail",
         "raw_records": int(len(df)),
